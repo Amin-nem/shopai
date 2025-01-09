@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "shopai"
+version = "0.1.0"
+description = ""
+authors = ["Amin <neemamin22@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = {extras = ["standard"], version = "^0.115.6"}
+uvicorn = "^0.34.0"
+fastembed = "^0.5.0"
+qdrant-client = "^1.12.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
