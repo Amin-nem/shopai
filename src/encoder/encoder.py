@@ -14,11 +14,11 @@ class Encoder:
             "dim"]  # dimension of image embeddings, produced by CLIP image encoder (512)
 
     def embed_text(self, text):
-        return list(self.text_model.embed(text))
+        return list(self.text_model.embed(text)).pop()
 
     def embed_image(self, image):
-        return list(self.image_model.embed(image))
+        return list(self.image_model.embed(image)).pop()
 
-# if __name__ == "__main__":
-#     encoder = Encoder()
-#     print(encoder.embed_text("hello world"))
+if __name__ == "__main__":
+    encoder = Encoder()
+    print(encoder.embed_text("hello world"))
