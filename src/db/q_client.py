@@ -53,7 +53,7 @@ class QClient:
             self.add_to_quadrant(datapoint)
 
     def query_images_with_text(self, query, n, category_names=None, price_low=None, price_high=None):
-        filters = build_filters(category_names=None, price_low=None, price_high=None)["qdrant_filters"]
+        filters = build_filters(category_names=category_names, price_low=price_low, price_high=price_high)["qdrant_filters"]
         # encode text
         encoded_query = self.encoder.embed_text(query)
         # search
