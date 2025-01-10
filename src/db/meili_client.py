@@ -30,7 +30,7 @@ class Mclient:
         filters = build_filters(category_names=category_names, price_low=price_low, price_high=price_high)["meili_filters"]
 
         res = self.client.index(MEILI_INDEX).search(query=query, opt_params={"filter": filters, "limit": limit})
-        return res
+        return res.get("hits")
 
 
 if __name__ == "__main__":

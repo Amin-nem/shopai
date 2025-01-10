@@ -12,6 +12,10 @@ uvicorn = "^0.34.0"
 fastembed = "^0.5.0"
 qdrant-client = "^1.12.2"
 meilisearch = "^0.33.1"
+phidata = "^2.7.7"
+openai = "^1.59.6"
+sqlalchemy = "^2.0.37"
+psycopg = "^3.2.3"
 
 
 [build-system]
