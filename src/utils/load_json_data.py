@@ -1,10 +1,10 @@
 import json
-from src.utils.product_model import Products
+from src.types.products import Products
 
 JSON_PATH = "../../products_1.json"
 
-def load_json_data():
-    with open(JSON_PATH,"r") as f:
+def load_json_data(path:str=JSON_PATH)->Products:
+    with open(path,"r") as f:
         d = json.load(f)
     return Products.validate_python(d)
 

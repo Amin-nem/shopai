@@ -1,6 +1,8 @@
 from meilisearch import Client
 from src.utils.load_json_data import load_json_data
 from src.utils.build_filters import build_filters
+from src.types.products import Product, Products
+from typing import List
 
 MEILI_HOST = "aSampleMasterKey"
 MEILI_URL = "http://localhost:7700"
@@ -19,25 +21,25 @@ class Mclient:
              "description", ]
         )
 
-    def add_to_meili(self, datapoint):
-        self.client.index(MEILI_INDEX).add_documents(datapoint)
+    def add_to_meili(self, datapoint:Product):
+        self.client.index(MEILI_INDEX).add_documents(datapoint.model_dump())
 
-    def batch_add_to_meili(self, datapoints):
+    def batch_add_to_meili(self, datapoints:Products):
         for datapoint in datapoints:
             self.add_to_meili(datapoint)
 
-    def search(self, query, limit=1,category_names=None, price_low=None, price_high=None):
-        filters = build_filters(category_names=category_names, price_low=price_low, price_high=price_high)["meili_filters"]
+    def search(self, query:str, limit:int=2,category_names:List[str]=[], price_low:int=0, price_high:int=0)->Products:
+        filters = build_filters(category_names=category_names, price_low=price_low, price_high=price_high).meili_filters
 
         res = self.client.index(MEILI_INDEX).search(query=query, opt_params={"filter": filters, "limit": limit})
-        return res.get("hits")
+        return Products.validate_python(res.get("hits"))
 
 
 if __name__ == "__main__":
     data = load_json_data()[1100:2000]
     client = Mclient()
     # print(data[0].model_dump())
-    client.batch_add_to_meili([i.model_dump() for i in data if not i.current_price is None])
+    client.batch_add_to_meili([i for i in data if not i.current_price is None])
 
     print(client.client.get_all_stats())
 

@@ -1,0 +1,6 @@
+1. Complete the search function of the agent to use all the parameters
+2. Write a function to correctly pass the images to the user
+3. Write the agent function in the main file
+4. API
+5. Front
+6. Docker (Mieli, Qdrant server, etc)

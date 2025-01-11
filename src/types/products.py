@@ -4,12 +4,13 @@ from pydantic import BaseModel, TypeAdapter
 class Product(BaseModel):
     id: int
     name: str
-    description: str
-    images: list[str]
     category_name: str | None = None
-    link: str | None = None
-    currency: str
+    description: str
     current_price: float | None = None
+    link: str | None = None
+    images: list[str]
+    currency: str
+
 
 
 Products = TypeAdapter(list[Product])

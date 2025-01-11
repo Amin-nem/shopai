@@ -1,23 +1,29 @@
+# I'm using Fastembed from Qdrant
 from fastembed import TextEmbedding, ImageEmbedding
+from src.types.encoder import ImageInput
+
+TEXT_MODEL_NAME = "Qdrant/clip-ViT-B-32-text"
+IMAGE_MODEL_NAME = "Qdrant/clip-ViT-B-32-vision"
 
 
 class Encoder:
     def __init__(self):
-        self.text_model_name = "Qdrant/clip-ViT-B-32-text"
+        self.text_model_name = TEXT_MODEL_NAME
         self.text_model = TextEmbedding(model_name=self.text_model_name)
         self.text_embeddings_size = self.text_model._get_model_description(self.text_model_name)[
-            "dim"]  # dimension of text embeddings, produced by CLIP text encoder (512)
+            "dim"]
 
-        self.image_model_name = "Qdrant/clip-ViT-B-32-vision"  # CLIP image encoder
+        self.image_model_name = IMAGE_MODEL_NAME
         self.image_model = ImageEmbedding(model_name=self.image_model_name)
         self.image_embeddings_size = self.image_model._get_model_description(self.image_model_name)[
-            "dim"]  # dimension of image embeddings, produced by CLIP image encoder (512)
+            "dim"]
 
-    def embed_text(self, text):
+    def embed_text(self, text:str):
         return list(self.text_model.embed(text)).pop()
 
-    def embed_image(self, image):
+    def embed_image(self, image:ImageInput):
         return list(self.image_model.embed(image)).pop()
+
 
 if __name__ == "__main__":
     encoder = Encoder()
