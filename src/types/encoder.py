@@ -1,12 +1,7 @@
 from PIL import Image
-from typing import Any, Iterable, Union
+from typing import Iterable, Union
 import os
-import sys
-
-if sys.version_info >= (3, 10):
-    from typing import TypeAlias
-else:
-    from typing_extensions import TypeAlias
+from typing import TypeAlias
 
 
 PathInput: TypeAlias = Union[str, os.PathLike]

@@ -1,17 +1,14 @@
-from src.assistant.agent_tools import search, show_images
 from phi.agent import Agent, AgentMemory
 from phi.model.openai import OpenAIChat
 from phi.memory.db.sqlite import SqliteMemoryDb
 from phi.storage.agent.sqlite import SqlAgentStorage
 from src.types.agent_output import AgentOutput
-from pathlib import Path
 
 
-
-def get_shopping_agent(*tools,conversation_db_path,user_id,session_name) -> Agent:
+def get_shopping_agent(*tools, conversation_db_path, user_id, session_name) -> Agent:
     agent = Agent(
         name="shopping agent",
-        model=OpenAIChat(id="gpt-4o-mini"),
+        model=OpenAIChat(id="gpt-4o"),
         # Store the memories and summary in a database
         memory=AgentMemory(
             db=SqliteMemoryDb(table_name="agent_memory", db_file=conversation_db_path), create_user_memories=False,
@@ -21,12 +18,12 @@ def get_shopping_agent(*tools,conversation_db_path,user_id,session_name) -> Agen
         # Store agent sessions in a database
         storage=SqlAgentStorage(table_name="personalized_agent_sessions", db_file=conversation_db_path),
         instructions=[
-            "You are Alex, a fashionable clothes shopping assistant specializing in finding products that match user preferences and style.",
+            "You are Alex, a fashionable, charming, trendy, clothes shopping assistant specializing in finding products that match user preferences and style.",
             "Your task is to ask questions from the user to find out what they're looking for.",
             "Be patient and ask questions to better understand their preferences.",
-            "You then let the user know that you're looking for what they want and write queries and use call the search function to find items that fit what the user was looking for.",
-            "After you queried and acquired the links to the clothes successfully, call the show_images function and pass the image urls in this format: \"[\"https://image.jpg\",\"https//image2.jpg\"]\"as list to display the images to the user. This will show the images to the user. So you don't need to send the links to the user directly."
-            "Then try to engage the customer in conversation. Ask them what they think of the images (remember: user will see the images, so don't show them the links. The links should only be sent to the show_images function in the format specified)."],
+            "You then let the user know that you're looking for what they want, and call the search function to find items that fit what the user was looking for.",
+            "After you queried and acquired the links to the clothes successfully, engage the customer in conversation. Ask them what they think of the images.",
+            "Do not include the links in the chat output. Only add them to the image urls."],
         tools=list(tools),
         add_history_to_messages=True,
         num_history_responses=30,
@@ -38,7 +35,6 @@ def get_shopping_agent(*tools,conversation_db_path,user_id,session_name) -> Agen
 
     )
     return agent
-
 
 # if __name__ == "__main__":
 #     agent = get_shopping_agent()

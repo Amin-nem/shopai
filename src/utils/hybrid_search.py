@@ -1,11 +1,11 @@
 from src.db.q_client import QClient
-from src.db.meili_client import Mclient
+from src.db.meili_client import MeiliClient
 from src.types.products import Products
 from typing import List
 
 
 class HybridSearch:
-    def __init__(self,q_client: QClient,m_client: Mclient):
+    def __init__(self,q_client: QClient,m_client: MeiliClient):
         self.q_client = q_client
         self.m_client = m_client
 
