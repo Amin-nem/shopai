@@ -3,6 +3,16 @@ from src.db.meili_client import Mclient
 from src.types.products import Products
 from typing import List
 
+# TODO:
+# Did you heard about dependency injection?
+# Another best practice is to pass your dependencies as argument in class initialization.
+# Like this:
+
+# class HybridSearch:
+#     def __init__(self, q_client:QClient, m_client:Mclient):
+#         self.q_client = q_client
+#         self.m_client = m_client
+#         ...
 
 class HybridSearch:
     def __init__(self):

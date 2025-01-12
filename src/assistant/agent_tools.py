@@ -5,6 +5,9 @@ import json
 import ast
 from src.utils.image_handler import load_image
 
+# TODO:
+# It would be better if you pass meili client as argument to your function or handle it in better way
+# In general Instantiating a class in file level is not a good practice
 mclient = Mclient()
 
 def get_unique_categories(payloads:Products):
