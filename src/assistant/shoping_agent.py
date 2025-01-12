@@ -5,6 +5,8 @@ from phi.memory.db.sqlite import SqliteMemoryDb
 from phi.storage.agent.sqlite import SqlAgentStorage
 from pathlib import Path
 
+# TODO:
+# As you said a good practice is to make this constant vars to env vars
 CHAT_HISTORY = Path(__file__).resolve().parent.parent / "db" / "conversation_history" / "./conversation_history.db"
 SESSION_NAME = "user_conversation"
 USER_ID = "user"
