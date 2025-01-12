@@ -6,7 +6,6 @@ from src.utils.load_json_data import load_json_data
 from src.db.meili_client import MeiliClient
 from src.db.q_client import QClient
 from src.types.search_params import SearchParams
-from typing import List
 from src.assistant.agent_tools import search
 from src.assistant.shoping_agent import get_shopping_agent
 from src.types.agent_io import AgentOutput, AgentRequest, ImageURLs
@@ -50,7 +49,7 @@ agent = get_shopping_agent(agent_search,conversation_db_path=CONVERSATION_DB_PAT
 
 
 logger.info(f"loading data into databases")
-data = load_json_data(str(JSON_PATH))[:10]
+data = load_json_data(str(JSON_PATH))
 q_client.batch_add_to_qdrant(data)
 m_client.batch_add_to_meili(data)
 logger.info(f"Finished loading data into databases")

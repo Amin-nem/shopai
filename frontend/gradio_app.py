@@ -2,15 +2,8 @@ import gradio as gr
 import requests
 import os
 
-##################################################################
-# 1. Adjust API_BASE_URL to match your FastAPI host and port
-##################################################################
 API_BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8000")
 
-
-##################################################################
-# 2. Define helper functions to call your FastAPI backends
-##################################################################
 def text_search_api(
         query: str,
         category_names: str,
@@ -19,10 +12,7 @@ def text_search_api(
         qdrant_limit: int,
         meili_limit: int,
 ):
-    """
-    Calls the /text_search endpoint in your FastAPI app.
-    Returns a dictionary with image_search_results and keyword_search_results.
-    """
+
     cat_names_list = [cat.strip() for cat in category_names.split(",") if cat.strip()]
 
     payload = {
@@ -49,14 +39,7 @@ def text_search_api(
 
 
 def agent_api(user_text: str):
-    """
-    Calls the /agent endpoint in your FastAPI app.
-    Returns (chat_output, image_urls_dict) where image_urls_dict has:
-      {
-        "image_search_results": [...],
-        "keyword_search_results": [...]
-      }
-    """
+
     payload = {"text": user_text}
     try:
         response = requests.post(f"{API_BASE_URL}/agent", json=payload, verify=False)  # Temporarily disabling SSL
@@ -81,10 +64,6 @@ def agent_api(user_text: str):
         "keyword_search_results": keyword_search_list
     }
 
-
-##################################################################
-# 3. Gradio app layout
-##################################################################
 def build_app():
     with gr.Blocks(title="Shopping App") as demo:
         gr.Markdown(
@@ -179,10 +158,6 @@ def build_app():
 
     return demo
 
-
-##################################################################
-# 4. Run the Gradio App
-##################################################################
 if __name__ == "__main__":
     demo_app = build_app()
     demo_app.launch(server_name="0.0.0.0", server_port=7860, debug=True)
