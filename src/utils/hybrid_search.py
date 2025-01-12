@@ -5,9 +5,9 @@ from typing import List
 
 
 class HybridSearch:
-    def __init__(self):
-        self.q_client = QClient()
-        self.m_client = Mclient()
+    def __init__(self,q_client: QClient,m_client: Mclient):
+        self.q_client = q_client
+        self.m_client = m_client
 
     def hybrid_search(self, query: str = "", qdrant_limit: int = 3, mieli_limit: int = 3,
                       category_names: List[str] = [],
@@ -18,7 +18,9 @@ class HybridSearch:
 
 
 # if __name__ == "__main__":
-#     hybrid_search = HybridSearch()
+#     q_client = QClient()
+#     m_client = Mclient()
+#     hybrid_search = HybridSearch(q_client, m_client)
 #     res = hybrid_search.hybrid_search("white", qdrant_limit=1)
 #     for i in res:
 #         print(i)

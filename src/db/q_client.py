@@ -11,9 +11,9 @@ QDRANT_COLLECTION_NAME = "text_image"
 
 
 class QClient:
-    def __init__(self):
-        self.client = QdrantClient(url="127.0.0.1", port=6333)
-        self.encoder = Encoder()
+    def __init__(self,qdrantclient: QdrantClient, encoder: Encoder):
+        self.client = qdrantclient
+        self.encoder = encoder
         if not self.client.collection_exists(QDRANT_COLLECTION_NAME):
             self.client.create_collection(
                 collection_name=QDRANT_COLLECTION_NAME,
@@ -78,16 +78,18 @@ class QClient:
         return res
 
 
-# if __name__ == "__main__":
-#     data = load_json_data()[0:5]
-#     client = QClient()
-#     for i in data:
-#         if not i.current_price is None:
-#             client.add_to_quadrant(i)
-#
-#     # client.batch_add_to_quadrant(data)
-#     print(client.client.count(collection_name=QDRANT_COLLECTION_NAME))
-#     print(client.client.get_fastembed_vector_params())
-#
-#     print(client.query_images_with_text("white", limit=3))
-#     client.client.close()
+if __name__ == "__main__":
+    qdrant_connection = QdrantClient(url="http://localhost",port=6333)
+    encoder = Encoder()
+    data = load_json_data()[0:5]
+    client = QClient(qdrantclient=qdrant_connection,encoder=encoder)
+    for i in data:
+        if not i.current_price is None:
+            client.add_to_quadrant(i)
+
+    # client.batch_add_to_quadrant(data)
+    print(client.client.count(collection_name=QDRANT_COLLECTION_NAME))
+    print(client.client.get_fastembed_vector_params())
+
+    print(client.query_images_with_text("white", limit=3))
+    client.client.close()

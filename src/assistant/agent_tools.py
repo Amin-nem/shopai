@@ -1,30 +1,16 @@
-from src.db.meili_client import Mclient
-from src.types.products import Product, Products
-from PIL import Image
+from src.types.products import Products
+from src.utils.hybrid_search import HybridSearch
 import json
 import ast
 from src.utils.image_handler import load_image
 
-mclient = Mclient()
 
 def get_unique_categories(payloads:Products):
     return set(payload.category_name for payload in payloads)
 
 
-def write_query():
-    pass
-
-
-def search(query:str)->str:
-    """Use this function to search for products.
-
-        Args:
-            query (str): keyword to search for.
-
-        Returns:
-            result List[str]: top results as a list of links.
-        """
-    results = mclient.search(query)
+def search(query:str, search_function:HybridSearch)->str:
+    results = search_function.hybrid_search(query)
     return json.dumps([product.images[0] for product in results])
 
 def show_images(image_links:str):
