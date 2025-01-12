@@ -1,9 +1,9 @@
 from src.db.meili_client import Mclient
 from src.types.products import Product, Products
-from typing import List, Dict
 from PIL import Image
 import json
-
+import ast
+from src.utils.image_handler import load_image
 
 mclient = Mclient()
 
@@ -27,15 +27,16 @@ def search(query:str)->str:
     results = mclient.search(query)
     return json.dumps([product.images[0] for product in results])
 
-def show_images(image_links:List[str]):
+def show_images(image_links:str):
     """Use this function to parse and show images of products.
 
         Args:
             image_links (str): urls to images
         """
+    image_links = ast.literal_eval(image_links)
+    [load_image(i).show() for i in image_links]
+    return "images shown successfully"
 
-    return [Image.open(i).show() for i in image_links]
 
-
-if __name__ == "__main__":
-    print(search("white shoe"))
+# if __name__ == "__main__":
+#     print(show_images(image_links="white shoe,asdf"))
