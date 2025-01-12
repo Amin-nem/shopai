@@ -14,3 +14,8 @@ class Product(BaseModel):
 
 
 Products = TypeAdapter(list[Product])
+
+
+class HybridProducts(BaseModel):
+    qdrant_products: list[Product]
+    mieli_products: list[Product]

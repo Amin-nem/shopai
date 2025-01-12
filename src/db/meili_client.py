@@ -46,7 +46,10 @@ class MeiliClient:
 
     def batch_add_to_meili(self, datapoints: Products) -> None:
         for datapoint in datapoints:
-            self.add_to_meili(datapoint)
+            try:
+                self.add_to_meili(datapoint)
+            except:
+                pass
 
     def search(
         self,

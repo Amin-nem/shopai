@@ -1,6 +1,6 @@
 from src.db.q_client import QClient
 from src.db.meili_client import MeiliClient
-from src.types.products import Products
+from src.types.products import HybridProducts
 from typing import List
 
 
@@ -11,10 +11,10 @@ class HybridSearch:
 
     def hybrid_search(self, query: str = "", qdrant_limit: int = 3, mieli_limit: int = 3,
                       category_names: List[str] = [],
-                      price_low: int = 0, price_high: int = 0) -> Products:
+                      price_low: int = 0, price_high: int = 0) -> HybridProducts:
         mieli_res = self.m_client.search(query, mieli_limit, category_names, price_low, price_high)
         qdrant_res = self.q_client.query_images_with_text(query, qdrant_limit, category_names, price_low, price_high)
-        return qdrant_res + mieli_res
+        return HybridProducts(mieli_products=mieli_res, qdrant_products=qdrant_res)
 
 
 # if __name__ == "__main__":

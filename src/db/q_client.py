@@ -61,7 +61,11 @@ class QClient:
 
     def batch_add_to_qdrant(self, datapoints: Products) -> None:
         for datapoint in datapoints:
-            self.add_to_qdrant(datapoint)
+            try:
+                self.add_to_qdrant(datapoint)
+            # not that important to load all the images
+            except:
+                pass
 
     def query_images_with_text(
         self,

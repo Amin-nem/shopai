@@ -1,0 +1,46 @@
+# docker-compose.yml
+
+version: '3.8'
+
+services:
+  qdrant:
+    image: qdrant/qdrant
+    container_name: qdrant
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant_storage:/qdrant/storage
+    networks:
+      - shopai-network
+
+  meilisearch:
+    image: getmeili/meilisearch:latest
+    container_name: meilisearch
+    ports:
+      - "7700:7700"
+    environment:
+      MEILI_MASTER_KEY: "${MEILISEARCH_MASTER_KEY}"
+    networks:
+      - shopai-network
+
+  app:
+    build: .
+    container_name: shopai_app
+    ports:
+      - "8000:8000"  # FastAPI
+      - "7860:7860"  # Gradio
+      - "7700:7700"  # MeiliSearch (optional, if needed externally)
+    env_file:
+      - .env
+    depends_on:
+      - qdrant
+      - meilisearch
+    networks:
+      - shopai-network
+
+volumes:
+  qdrant_storage:
+
+networks:
+  shopai-network:
+    driver: bridge

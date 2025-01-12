@@ -2,7 +2,7 @@ from phi.agent import Agent, AgentMemory
 from phi.model.openai import OpenAIChat
 from phi.memory.db.sqlite import SqliteMemoryDb
 from phi.storage.agent.sqlite import SqlAgentStorage
-from src.types.agent_output import AgentOutput
+from src.types.agent_io import AgentOutput
 
 
 def get_shopping_agent(*tools, conversation_db_path, user_id, session_name) -> Agent:
