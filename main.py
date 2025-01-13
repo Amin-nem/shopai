@@ -49,7 +49,7 @@ agent = get_shopping_agent(agent_search,conversation_db_path=CONVERSATION_DB_PAT
 
 
 logger.info(f"loading data into databases")
-data = load_json_data(str(JSON_PATH))
+data = load_json_data(str(JSON_PATH))[:1000]
 q_client.batch_add_to_qdrant(data)
 m_client.batch_add_to_meili(data)
 logger.info(f"Finished loading data into databases")
