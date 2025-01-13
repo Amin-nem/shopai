@@ -49,7 +49,7 @@ agent = get_shopping_agent(agent_search,conversation_db_path=CONVERSATION_DB_PAT
 
 
 logger.info(f"loading data into databases")
-data = load_json_data(str(JSON_PATH))[1000:1001]
+data = load_json_data(str(JSON_PATH))[1001:]
 q_client.batch_add_to_qdrant(data)
 m_client.batch_add_to_meili(data)
 logger.info(f"Finished loading data into databases")
@@ -61,7 +61,7 @@ app = FastAPI()
 @app.post("/text_search")
 async def query_images_with_text(search_params: SearchParams) -> ImageURLs:
     res = hybrid_search.hybrid_search(search_params.query, search_params.qdrant_limit, search_params.mieli_limit,
-                                      search_params.category_names, search_params.price_low, search_params.price_high)
+                                      [i.lower() for i in search_params.category_names], search_params.price_low, search_params.price_high)
     return ImageURLs(image_search_results=[i.images[0] for i in res.qdrant_products],keyword_search_results=[i.images[0] for i in res.mieli_products])
 
 
