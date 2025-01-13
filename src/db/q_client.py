@@ -1,7 +1,6 @@
 import logging
 from qdrant_client import QdrantClient, models
 from src.encoder.encoder import Encoder
-# from src.utils.load_json_data import load_json_data
 from src.utils.image_handler import load_image
 from src.utils.build_filters import build_filters
 from src.types.products import Product, Products
@@ -68,12 +67,12 @@ class QClient:
                 pass
 
     def query_images_with_text(
-        self,
-        query: str = "",
-        limit: int = 1,
-        category_names: Optional[List[str]] = None,
-        price_low: int = 0,
-        price_high: int = 0,
+            self,
+            query: str = "",
+            limit: int = 1,
+            category_names: Optional[List[str]] = None,
+            price_low: int = 0,
+            price_high: int = 0,
     ) -> Products:
         if category_names is None:
             category_names = []
@@ -100,24 +99,3 @@ class QClient:
         )
 
         return Products.validate_python([hit.payload for hit in res])
-
-
-# if __name__ == "__main__":
-#     qdrant_connection = QdrantClient(url="http://localhost", port=6333)
-#     encoder = Encoder()
-#
-#     data = load_json_data()[0:5]
-#     client = QClient(qdrantclient=qdrant_connection, encoder=encoder)
-#
-#     for item in data:
-#         if item.current_price is not None:
-#             client.add_to_qdrant(item)
-#
-#     logger.info(
-#         "Collection count: %s",
-#         client.client.count(collection_name=QDRANT_COLLECTION_NAME)
-#     )
-#
-#     results = client.query_images_with_text("white", limit=3)
-#
-#     client.client.close()

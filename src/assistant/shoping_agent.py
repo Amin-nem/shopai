@@ -9,13 +9,11 @@ def get_shopping_agent(*tools, conversation_db_path, user_id, session_name) -> A
     agent = Agent(
         name="shopping agent",
         model=OpenAIChat(id="gpt-4o"),
-        # Store the memories and summary in a database
         memory=AgentMemory(
             db=SqliteMemoryDb(table_name="agent_memory", db_file=conversation_db_path), create_user_memories=False,
             create_session_summary=False, update_user_memories_after_run=True, user_id=user_id,
 
         ),
-        # Store agent sessions in a database
         storage=SqlAgentStorage(table_name="personalized_agent_sessions", db_file=conversation_db_path),
         instructions=[
             "You are Alex, a fashionable, charming, trendy, clothes shopping assistant specializing in finding products that match user preferences and style.",
@@ -35,11 +33,3 @@ def get_shopping_agent(*tools, conversation_db_path, user_id, session_name) -> A
 
     )
     return agent
-
-# if __name__ == "__main__":
-#     agent = get_shopping_agent()
-#     print(agent.run("I'm Amin. I'm looking for something for my friends wedding."))
-#
-#     print(agent.run("What is my name?"))
-#
-#     print(agent.run("Please search for white shirts and show me what you got."))

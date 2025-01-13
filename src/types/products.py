@@ -12,7 +12,6 @@ class Product(BaseModel):
     currency: str
 
 
-
 Products = TypeAdapter(list[Product])
 
 
