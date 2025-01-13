@@ -3,7 +3,7 @@
 #!/bin/bash
 
 # Start MeiliSearch
-./meilisearch --master-key="$MEILISEARCH_MASTER_KEY" &
+./meilisearch --master-key="aSampleMasterKey" &
 
 # Start FastAPI with Uvicorn
 uvicorn main:app --host $FASTAPI_HOST --port $FASTAPI_PORT &

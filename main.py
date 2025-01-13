@@ -13,7 +13,7 @@ from pathlib import Path
 import logging
 
 from dotenv import load_dotenv
-load_dotenv()
+load_dotenv(dotenv_path="config.env")
 
 
 logging.basicConfig(
