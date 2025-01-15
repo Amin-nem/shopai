@@ -25,7 +25,7 @@ def text_search_api(
     }
 
     try:
-        response = requests.post(f"{API_BASE_URL}/text_search", json=payload, verify=False)  # Temporarily disabling SSL
+        response = requests.post(f"{API_BASE_URL}/text_search", json=payload, verify=False)
         response.raise_for_status()
     except requests.exceptions.RequestException as e:
         # Return empty lists with an error message as a separate field if needed
@@ -42,10 +42,9 @@ def agent_api(user_text: str):
 
     payload = {"text": user_text}
     try:
-        response = requests.post(f"{API_BASE_URL}/agent", json=payload, verify=False)  # Temporarily disabling SSL
+        response = requests.post(f"{API_BASE_URL}/agent", json=payload, verify=False)
         response.raise_for_status()
     except requests.exceptions.RequestException as e:
-        # Return an error message in chat_output and empty dict for images
         return f"Error: {str(e)}", {
             "image_search_results": [],
             "keyword_search_results": []
@@ -53,7 +52,7 @@ def agent_api(user_text: str):
 
     resp_json = response.json()
     chat_output = resp_json.get("chat_output", "")
-    image_urls_data = resp_json.get("image_urls") or {}  # Ensure it's a dict
+    image_urls_data = resp_json.get("image_urls") or {}
 
     # Ensure both keys exist to prevent KeyError
     image_search_list = image_urls_data.get("image_search_results", [])
@@ -72,7 +71,6 @@ def build_app():
             """
         )
 
-        # =========== TAB 1: SEARCH =========== #
         with gr.Tab("Search"):
             with gr.Row():
                 query = gr.Textbox(label="Query", placeholder="Search for shoes, phones, etc.")
@@ -111,7 +109,6 @@ def build_app():
                 outputs=[search_image_search_gallery, search_keyword_search_gallery]
             )
 
-        # =========== TAB 2: ASSISTANT =========== #
         with gr.Tab("Assistant"):
             with gr.Row():
                 user_input = gr.Textbox(
